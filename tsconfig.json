@@ -10,5 +10,8 @@
     "skipLibCheck": true,
     "moduleResolution": "NodeNext"
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*"],
+  "typeAcquisition": {
+    "include": ["jest"]
+  }
 }
