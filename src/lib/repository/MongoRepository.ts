@@ -16,10 +16,10 @@ export default class MongoRepository<Resource extends Document> implements IRepo
         await document.save();
     }
 
-    public async readData(id: string) {
-        const result = await this.model.findById(id);
+    public async readData(email: string) {
+        const result = await this.model.findOne({email: email.toString()});
         if (!result) {
-            throw new Error(`Resource with ${id} not found for reading`);
+            throw new Error(`Resource with ${email} not found for reading`);
         }
         return result;
     }
@@ -38,5 +38,7 @@ export default class MongoRepository<Resource extends Document> implements IRepo
             throw new Error(`Resource with ${id} not found for deleting`);
         }
     }
+
+    
     
 }
