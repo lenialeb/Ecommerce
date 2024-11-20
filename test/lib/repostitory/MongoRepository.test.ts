@@ -1,6 +1,6 @@
 import { Model, Document } from "mongoose";
-import MongoRepository from "../src/lib/repository/MongoRepository";
-import IRepository from "../src/lib/repository/IRepository";
+import MongoRepository from "../../../src/lib/repository/MongoRepository";
+import IRepository from "../../../src/lib/repository/IRepository";
 
 
 // Mock Mongoose model methods
