@@ -1,4 +1,4 @@
-import {Model, Document, UpdateQuery} from "mongoose";
+import { Model, Document } from "mongoose";
 import IRepository from "./IRepository.js";
 
 export default class MongoRepository<Resource extends Document> implements IRepository<Resource>{
@@ -25,17 +25,17 @@ export default class MongoRepository<Resource extends Document> implements IRepo
     }
 
 
-    public async updateData(id: string, resource: Resource) {
-        const plainResource = resource.toObject ? resource.toObject() : resource;
-        const result = await this.model.findByIdAndUpdate(id, plainResource as UpdateQuery<Resource>);
+    public async updateData(email: string, resource: Resource) {
+        // const plainResource = resource.toObject ? resource.toObject() : resource;
+        const result = await this.model.findOneAndUpdate({email: email.toString(), resource });
         if (!result) {
-            throw new Error(`Resource with ${id} not found for updating`)
+            throw new Error(`Resource with ${email} not found for updating`)
         }
     }
-    public async deleteData(id: string) {
-        const result = await this.model.findByIdAndDelete(id);
+    public async deleteData(email: string) {
+        const result = await this.model.findOneAndDelete({email: email.toString()});
         if (!result) {
-            throw new Error(`Resource with ${id} not found for deleting`);
+            throw new Error(`Resource with ${email} not found for deleting`);
         }
     }
 
