@@ -12,9 +12,4 @@ export default class AuthProvider {
         return this.UserRepository;
     }
 
-    public static provideUserModel() {
-        if (this.UserModel === null) {
-            this.UserModel = new UserModel();
-        }
-    }
 }
