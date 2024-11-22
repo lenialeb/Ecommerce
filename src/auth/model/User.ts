@@ -1,5 +1,4 @@
 import { Date, Document, model, Schema } from "mongoose";
-import { isDate } from "util/types";
 
 interface IUser extends Document {
     name: string;
@@ -19,4 +18,4 @@ const UserSchema = new Schema({
 
 const UserModel = model<IUser>('User', UserSchema);
 
-export { IUser, UserModel};
+export { IUser, UserModel };

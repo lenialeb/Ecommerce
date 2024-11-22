@@ -11,4 +11,5 @@ export class TokenGenerator{
         const saltrounds = 10;
         return hash(password, saltrounds);
     }
+
 }
