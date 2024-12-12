@@ -51,10 +51,11 @@ UserRoute.post(
             const user = await userRepository.readData(email);
             if (!!user && (await bcrypt.compare(password, user.password))) {
                 return res.status(200).json({
-                    sucess: true,
+                    success: true,
                     user: {
                         name: user.name,
-                        email: user.email
+                        email: user.email,
+                        token: user.token
                     }
                 });
             }
