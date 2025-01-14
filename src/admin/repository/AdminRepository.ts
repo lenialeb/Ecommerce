@@ -5,4 +5,4 @@ export default class AdminRepository extends MongoRepository<IAdmin>{
     constructor(){
         super('Admin', AdminModel);
     }
-}
+} 

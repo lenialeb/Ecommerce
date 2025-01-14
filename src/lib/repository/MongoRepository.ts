@@ -4,7 +4,7 @@ import IRepository from "./IRepository.js";
 export default class MongoRepository<Resource extends Document> implements IRepository<Resource>{
     
     private collectionName: string;
-    private model: Model<Resource>;
+    protected model: Model<Resource>;
 
     constructor(collectionName: string, model: Model<Resource>) {
         this.collectionName = collectionName;

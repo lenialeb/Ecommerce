@@ -1,4 +1,4 @@
-import { TokenGenerator } from "../../lib/TokenGenerator.js";
+import { TokenGenerator } from "../../lib/utils/TokenGenerator.js";
 import AuthProvider from "../di/AuthProvider.js";
 import { Router } from "express";
 import { UserModel } from "../model/User.js";
@@ -31,7 +31,7 @@ UserRoute.post(
                 user: {
                   name: newUser.name,
                   email: newUser.email,
-                  auth_token: newUser.token,
+                  token: newUser.token,
                 },
               });
         } catch (error) {
@@ -45,10 +45,14 @@ UserRoute.post(
 UserRoute.post(
     "/login",
     async (req: any, res: any) => {
+        console.log(req.body);
         const { email, password } = req.body;
+        console.log(email, password);
         try {
             const userRepository = AuthProvider.provideUserRepository();
             const user = await userRepository.readData(email);
+            console.log(user);
+            console.log(!!user && (await bcrypt.compare(password, user.password)));
             if (!!user && (await bcrypt.compare(password, user.password))) {
                 return res.status(200).json({
                     success: true,
@@ -65,6 +69,7 @@ UserRoute.post(
             return res.status(500).json({ error: 'Internal Server Error' });
 
         }
+        console.log(res)
     }
 );
 

@@ -11,8 +11,8 @@ export default class HostingStorage implements IFileStorage {
     }
 
 
-    public async get_url(filname: string) {
-        const response = await axios.get(`${this.host}/geturl.php?filename=${filname}`);
+    public async get_url(filename: string) {
+        const response = await axios.get(`${this.host}/geturl.php?filename=${filename}`);
         
         if(response.status !== 200) {
             throw new Error(`Get url failed with ${response.status}`);
