@@ -1,7 +1,8 @@
 import * as dotenv from 'dotenv';
 import express, { Router } from 'express';
 import { connectDB } from './configs/db/db.js';
-import router from './auth/route/Route.js';
+import AuthRouter from './apps/auth/route/Route.js';
+import PaymentRouter from './apps/payment/route/Route.js';
 import cors from 'cors';
 
 dotenv.config();
@@ -21,7 +22,7 @@ app.use('/', cors({
 
 app.use(express.json());
 
-app.use(router);
+app.use(AuthRouter, PaymentRouter);
 if (!PORT) {
   console.error("PORT is not defined in .env file");
   process.exit(1); // Exit the process with an error code
