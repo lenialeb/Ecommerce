@@ -1,10 +1,10 @@
-import { Model, Document } from "mongoose";
+import { Model, Document, Types } from "mongoose";
 import IRepository from "./IRepository.js";
 
 export default class MongoRepository<Resource extends Document> implements IRepository<Resource>{
     
     private collectionName: string;
-    private model: Model<Resource>;
+    public model: Model<Resource>;
 
     constructor(collectionName: string, model: Model<Resource>) {
         this.collectionName = collectionName;
@@ -18,15 +18,19 @@ export default class MongoRepository<Resource extends Document> implements IRepo
 
     public async readData(email: string) {
         const result = await this.model.findOne({ email: email });
+        if(!result)
+            throw new Error(`Resource with ${email} not found for reading`);
         return result;
     }
 
 
     public async updateData(email: string, resource: Resource) {
+        // const plainResource = resource.toObject ? resource.toObject() : resource;
         const result = await this.model.findOneAndUpdate({ email: email, resource });
         if (!result) {
             throw new Error(`Resource with ${email} not found for updating`)
         }
+    
     }
     public async deleteData(email: string) {
         const result = await this.model.findOneAndDelete({ email: email });
@@ -35,6 +39,8 @@ export default class MongoRepository<Resource extends Document> implements IRepo
         }
     }
 
+   
+    
     
     
 }
