@@ -59,7 +59,8 @@ UserRoute.post(
                     user: {
                         name: user.name,
                         email: user.email,
-                        token: user.token
+                        token: user.token,
+                        role: user.role
                     }
                 });
             }

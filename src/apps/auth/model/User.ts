@@ -1,6 +1,7 @@
 import { Date, Document, model, Schema } from "mongoose";
 
 interface IUser extends Document {
+    role: string;
     name: string;
     email: string;
     password: string;
@@ -8,7 +9,8 @@ interface IUser extends Document {
     tokenCreatedAt: Date
 }
 
-const UserSchema = new Schema({
+export const UserSchema = new Schema({
+    role: { type: String, enum:['user', 'admin'], default: 'user', required: true},
     name: { type: String, required: true},
     email: { type: String, required: true, unique: true},
     password: { type: String, required: true},
