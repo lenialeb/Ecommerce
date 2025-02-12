@@ -31,10 +31,6 @@ if (!PORT) {
   console.error("PORT is not defined in .env file");
   process.exit(1); // Exit the process with an error code
 }
-if (!PORT) {
-  console.error("PORT is not defined in .env file");
-  process.exit(1); // Exit the process with an error code
-}
 
 app.listen(PORT, () => {
   console.log(`Listening at ${PORT}`);

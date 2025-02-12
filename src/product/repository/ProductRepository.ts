@@ -25,7 +25,6 @@ export default class ProductRepository extends MongoRepository<IProduct>{
     
         Object.assign(existingDocument, resource); // Update the existing document with new data
         await existingDocument.save(); // Save the updated document
-        return existingDocument; // Return the updated document
     }
     public async deleteData(id: string) {
         const result = await this.model.findByIdAndDelete(id);

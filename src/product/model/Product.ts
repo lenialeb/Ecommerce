@@ -1,5 +1,5 @@
 import mongoose, {  Document, model, Schema } from "mongoose";
-import { IUser } from "../../auth/model/User.js";
+import { IUser } from "../../apps/auth/model/User.js";
 interface IProduct extends Document {
     name: string;
     price: number;

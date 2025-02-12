@@ -25,7 +25,6 @@ export default class MongoRepository<Resource extends Document> implements IRepo
 
 
     public async updateData(email: string, resource: Resource) {
-        // const plainResource = resource.toObject ? resource.toObject() : resource;
         const result = await this.model.findOneAndUpdate({ email: email, resource });
         if (!result) {
             throw new Error(`Resource with ${email} not found for updating`)
