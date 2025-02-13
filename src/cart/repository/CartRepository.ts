@@ -10,8 +10,16 @@ export default class CartRepository extends MongoRepository<ICart> {
   //     return await ProductModel.find({ category }).populate('owner');
   //   }
   public async getCart(owner: string): Promise<ICart | null> {
-    return await CartModel.findOne({ owner }).populate("items.productId");
-  }
+    try {
+        console.log("Fetching cart for owner:", owner);
+        const cart = await CartModel.findOne({ owner }).populate("items.productId");
+        console.log("Cart fetched:", cart);
+        return cart;
+    } catch (error) {
+        console.error("Error fetching cart from database:", error);
+        throw error; // Rethrow error to be caught in the route
+    }
+}
 //   public async addToCart(owner: string, productId: string): Promise<ICart> {
 //     let cart = await CartModel.findOne({ owner });
 //     if (!cart) {
@@ -33,6 +41,8 @@ export default class CartRepository extends MongoRepository<ICart> {
 //     await cart.save();
 //     return cart;
 //   }
+
+
 public async addToCart(owner: string, productId: string): Promise<ICart> {
     let cart = await CartModel.findOne({ owner });
 

@@ -9,6 +9,13 @@ export default class ProductRepository extends MongoRepository<IProduct>{
     async findByCategory(category: string): Promise<IProduct[]> {
         return await ProductModel.find({ category }).populate('owner');
       }
+     public async getAllProducts() {
+        try {
+            return await ProductModel.find();
+        } catch (error) {
+            throw new Error('Error fetching products: ' + error);
+        }
+    }
     public async readData(id: string) {
         const result = await this.model.findById(id);
         if (!result) {
@@ -32,7 +39,7 @@ export default class ProductRepository extends MongoRepository<IProduct>{
             throw new Error(`Resource with ID ${id} not found for deleting`);
         }
     }
-    public async readDataByOwner(ownerId: string): Promise<IProduct[]> {
+    public async readDataByOwner(ownerId: string)  {
         console.log(`Searching for products with owner ID: ${ownerId}`);
         
         // const results = await this.model.find({ ownerId: ownerId });

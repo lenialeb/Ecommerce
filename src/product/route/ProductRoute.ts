@@ -66,11 +66,11 @@ import { Router } from 'express';
 import MongoRepository from '../../lib/repository/MongoRepository.js';
 import { IProduct, ProductModel } from '../model/Product.js';
 import ProductProvider from '../di/ProductProvider.js';
-
+import { Request, Response } from 'express';
 const ProductRoute = Router();
 
 // Create a new product
-ProductRoute.post('/pro', async (req, res) => {
+ProductRoute.post('/pro',  async (req: Request, res: Response) => {
     try {
         const productData: IProduct = req.body;
         const ProductRepository = ProductProvider.provideProductRepository();
@@ -82,22 +82,66 @@ ProductRoute.post('/pro', async (req, res) => {
 });
 
 // Read a product by ID
-ProductRoute.get('/see/:id', async (req, res) => {
+ProductRoute.get('/see/:id',  async (req: Request, res: Response) => {
     try {
         const productId = req.params.id;
         const ProductRepository = ProductProvider.provideProductRepository();
         const product = await ProductRepository.readData(productId);
+      
+       
         res.json(product);
     } catch (error) {
         res.status(500).json({ message: error});
     }
 });
+
+
+// CartRoute.get('/:ownerId', async (req, res) => {
+//     try {
+      
+//         const cartDetails = cart?.items.map(item => ({
+//           productId: item.productId._id,
+//           quantity: item.quantity,
+//           name: item.productId.name, 
+//           price: item.productId.price, // Assuming Product has a 'price' field
+//           description: item.productId.description,
+//           img: item.productId.img,
+//         }));
+//         console.log(cartDetails);
+//         res.json(cartDetails || {items:[]});
+//     } catch (error) {
+//         res.status(500).json({ message: error});
+//     }
+// });
+ProductRoute.get('/allProducts', async (req, res) => {
+    try {
+        const ProductRepository = ProductProvider.provideProductRepository();
+
+        const products = await ProductRepository.getAllProducts();
+        res.status(200).json(products);
+    } catch (error) {
+        res.status(500).json({ message: error });
+    }
+});
+
 ProductRoute.get('/ownerProducts/:ownerId', async (req, res) => {
     try {
         const ownerId = req.params.ownerId; // Get owner ID from URL parameters
         const ProductRepository = ProductProvider.provideProductRepository();
         const products = await ProductRepository.readDataByOwner(ownerId);
-        
+        // if (!Array.isArray(products)) {
+        //     return res.status(400).json({ message: "Expected an array of products" });
+        // }
+        const cartDetails = products.map(item => ({
+                       productId: item._id,
+                       name: item.name, 
+                       price: item.price,  
+                       
+                       description: item.description,
+                      img: item.img,
+                    }));
+                    console.log(cartDetails);
+                   res.json(cartDetails || {items:[]});
         res.json(products);
     } catch (error) {
         res.status(500).json({ message: error });
@@ -165,6 +209,7 @@ ProductRoute.put('/:id', async (req, res) => {
         const ProductRepository = ProductProvider.provideProductRepository();
         const updatedProduct = await ProductRepository.updateData(productId, updatedProductData);
         res.json({ message: `Product updated successfully`, product: updatedProduct });
+        
     } catch (error) {
         res.status(500).json({ message: error});
     }
@@ -176,7 +221,7 @@ ProductRoute.delete('/:id', async (req, res) => {
         const productId = req.params.id;
         const ProductRepository = ProductProvider.provideProductRepository();
         await ProductRepository.deleteData(productId);
-        res.json({ message: 'Product deleted successfully' });
+        // res.json({ message: 'Product deleted successfully' });
     } catch (error) {
         res.status(500).json({ message: error });
     }
