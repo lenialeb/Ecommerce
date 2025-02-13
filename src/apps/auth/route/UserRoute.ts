@@ -32,6 +32,7 @@ UserRoute.post(
                   name: newUser.name,
                   email: newUser.email,
                   token: newUser.token,
+                  id: newUser._id
                 },
               });
         } catch (error) {
@@ -60,7 +61,8 @@ UserRoute.post(
                         name: user.name,
                         email: user.email,
                         token: user.token,
-                        role: user.role
+                        role: user.role,
+                        id: user._id
                     }
                 });
             }

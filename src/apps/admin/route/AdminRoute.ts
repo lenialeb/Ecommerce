@@ -41,7 +41,7 @@ AdminRoute.post(
             if ((user?.token != token) || (user?.role != "admin")) {
                 return res.status(409).json({ error: "invalid credential"});
             }
-            const all_users = await UserModel.find();
+            const all_users = await UserModel.find().select('-password -__v -_id -token -tokenCreatedAt');
             return res.status(200).json({users: all_users});
         } catch(error) {
             console.error("Error: ", error);
