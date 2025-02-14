@@ -26,7 +26,7 @@ app.use('/', cors({
 
 app.use(express.json());
 
-app.use(AuthRouter, PaymentRouter, AdminRouter, routerPro, routerCart);
+app.use(AuthRouter,PaymentRouter, AdminRouter, routerPro, routerCart);
 if (!PORT) {
   console.error("PORT is not defined in .env file");
   process.exit(1); // Exit the process with an error code

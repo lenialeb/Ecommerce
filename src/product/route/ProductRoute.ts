@@ -67,6 +67,7 @@ import MongoRepository from '../../lib/repository/MongoRepository.js';
 import { IProduct, ProductModel } from '../model/Product.js';
 import ProductProvider from '../di/ProductProvider.js';
 import { Request, Response } from 'express';
+import { title } from 'process';
 const ProductRoute = Router();
 
 // Create a new product
@@ -78,6 +79,7 @@ ProductRoute.post('/pro',  async (req: Request, res: Response) => {
         res.status(201).json({ message: 'Product created successfully' });
     } catch (error) {
         res.status(500).json({ message: error });
+        console.log(res.json);
     }
 });
 
@@ -118,6 +120,18 @@ ProductRoute.get('/allProducts', async (req, res) => {
         const ProductRepository = ProductProvider.provideProductRepository();
 
         const products = await ProductRepository.getAllProducts();
+        const cartDetails = products.map(item => ({
+            productId: item._id,
+            name: item.name, 
+            price: item.price,  
+            
+            description: item.description,
+           img: item.img,
+           owner:item.owner,
+         }));
+         console.log(cartDetails);
+        res.json(cartDetails || {items:[]});
+res.json(products);
         res.status(200).json(products);
     } catch (error) {
         res.status(500).json({ message: error });
@@ -134,9 +148,9 @@ ProductRoute.get('/ownerProducts/:ownerId', async (req, res) => {
         // }
         const cartDetails = products.map(item => ({
                        productId: item._id,
-                       name: item.name, 
+                       title: item.name, 
                        price: item.price,  
-                       
+                       category:item.category,
                        description: item.description,
                       img: item.img,
                     }));
