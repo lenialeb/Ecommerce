@@ -76,6 +76,7 @@ ProductRoute.post('/pro',  async (req: Request, res: Response) => {
         const productData: IProduct = req.body;
         const ProductRepository = ProductProvider.provideProductRepository();
         await ProductRepository.createData(productData);
+        console.log(productData);
         res.status(201).json({ message: 'Product created successfully' });
     } catch (error) {
         res.status(500).json({ message: error });
