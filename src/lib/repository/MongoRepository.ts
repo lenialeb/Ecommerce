@@ -18,8 +18,7 @@ export default class MongoRepository<Resource extends Document> implements IRepo
 
     public async readData(email: string) {
         const result = await this.model.findOne({ email: email });
-        if(!result)
-            throw new Error(`Resource with ${email} not found for reading`);
+        
         return result;
     }
 

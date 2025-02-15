@@ -7,13 +7,12 @@ export default class UserRepository extends MongoRepository<IUser>{
  
  
     }
-    public async readData(id: string) {
+   
+    
+    public async readDataById(id: string) {
         const result = await this.model.findById(id);
-        if (!result) {
-            throw new Error(`Resource with ID ${id} not found for reading`);
-        }
+       
         return result;
     }
-    
     
 }
