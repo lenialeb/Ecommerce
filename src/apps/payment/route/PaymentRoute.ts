@@ -5,6 +5,8 @@ import CartProvider from "../../../cart/di/CartProvider.js";
 import { error } from "console";
 import axios from "axios";
 import { UserModel } from "../../auth/model/User.js";
+import PaymentProvider from "../di/PaymentProvider.js";
+import { PaymentModel } from "../model/Payment.js";
 
 dotenv.config();
 const PaymentRoute = Router();
@@ -25,13 +27,24 @@ PaymentRoute.post(
     async(req: any, res: any) => {
 
         const cartRepository = CartProvider.provideCartRepository();
+        const paymentRepository = PaymentProvider.providePaymentRepository();
         const CALLBACK_URL = `${BASE_URL}pay/verify/`;
         const RETURN_URL = `${BASE_URL}pay/success/`;
         const { id, amount } = req.body;
         const cart = await cartRepository.getCart(id);
         const user = await UserModel.findById(id);
         const unique = "gebeya_" + Date.now();
-        console.log(unique);
+        console.log(unique, id, amount);
+        const payment = new PaymentModel({
+            status: false,
+            amount: amount,
+            name: user.name,
+            email: user.email,
+            transaction_id: unique,
+            cart: cart?._id,
+            owner: id
+        });
+
         const data = {
             amount: amount,
             currency: 'ETB',
@@ -42,6 +55,8 @@ PaymentRoute.post(
             callback_url: CALLBACK_URL + unique,
             return_url: RETURN_URL
         }
+        await paymentRepository.createData(payment);
+        console.log(data);
 
     try {
         const response = await axios.post<CheckoutResponse>(CHAPA_URL, data, {
@@ -52,10 +67,11 @@ PaymentRoute.post(
 
         return res.status(200).json({ checkout_url: response.data.data.checkout_url });
     } catch (error) {
-        console.error("Error processing payment:", error);
-        return res.status(500).json({ error: "Internal Server Error" });
+        console.error("Error processing payment:", error.response?.data);
+        return res.status(500).json({ error: error });
     }
 });
+
 PaymentRoute.get(
     '/verify/:id',
     async(req: any, res: any) => {

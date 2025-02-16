@@ -11,7 +11,10 @@ UserRoute.post(
         const { name, email, password } = req.body;
         try {
             const UserRepository = AuthProvider.provideUserRepository();
+            console.log(UserRepository);
+            console.log(name, email, password);
             const user = await UserRepository.readData(email);
+            console.log(user);
             if (user) {
                 return res.status(409).json({ error: "User already exist" });
             }
@@ -25,6 +28,7 @@ UserRoute.post(
                 token,
                 tokenCreatedAt: date 
             });
+            console.log(newUser);
             await UserRepository.createData(newUser);
             return res.status(200).json({
                 success: true,
@@ -75,22 +79,22 @@ UserRoute.post(
         
     });
 
-  
-    UserRoute.get("/:id", async (req: any, res: any) => {
-        const userId = req.params.id;
-  
-        try {
-          const userRepository = AuthProvider.provideUserRepository();
-          const user = await userRepository.readDataById(userId);
-          if (!user) {
-            return res.status(404).json({ error: "User not found" });
-          }
-          return res.status(200).json(user);
-        } catch (error) {
-          console.error("Error retrieving user:", error);
-          return res.status(500).json({ error: "Internal Server Error" });
+UserRoute.get("/:id", async (req: any, res: any) => {
+      const userId = req.params.id;
+
+      try {
+        const userRepository = AuthProvider.provideUserRepository();
+        const user = await userRepository.readDataById(userId);
+        if (!user) {
+          return res.status(404).json({ error: "User not found" });
         }
-      });
+        return res.status(200).json(user);
+      } catch (error) {
+        console.error("Error retrieving user:", error);
+        return res.status(500).json({ error: "Internal Server Error" });
+      }
+    });
+    
 
 
 export default UserRoute;
