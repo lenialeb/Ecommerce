@@ -10,12 +10,12 @@ interface IProduct extends Document {
 }
 
 const ProductSchema = new Schema({
-    name: { type: String, required: true},
-    price: { type: Number, required: true},
-    description: { type: String, required: true},
-    category: { type: String, required: true},
-    img: { type: String, required: false},
-    owner:{ type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true}
+    name: { type: String, required: true, unique:true},
+    price: { type: Number, required: true, unique:false},
+    description: { type: String, required: true, unique:false},
+    category: { type: String, required: true, unique:false},
+    img: { type: String, required: false, unique:false},
+    owner:{ type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true, unique:false}
     // ownerId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
 });
 

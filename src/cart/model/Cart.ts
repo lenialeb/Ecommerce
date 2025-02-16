@@ -3,10 +3,10 @@ import { IUser } from "../../apps/auth/model/User.js";
 import { IProduct } from "../../product/model/Product.js";
 
  interface ICartItem {
-    productId: IProduct; // Reference to the product
+    productId: IProduct; 
     quantity: number;
   
-      // Quantity of the product in the cart
+      
   }
   
   // Define the interface for the cart

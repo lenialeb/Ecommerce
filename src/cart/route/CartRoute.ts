@@ -10,37 +10,6 @@ const CartRoute = Router();
 
 
 
-// get cart by usere id 
-// CartRoute.get('/:ownerId', async (req, res) => {
-//   try {
-//       const ownerId = req.params.ownerId;
-//       // if (!ownerId) {
-//       //     return res.status(400).json({ message: "Owner ID is required." });
-//       // }
-
-//       const CartRepository = CartProvider.provideCartRepository();
-//       const cart = await CartRepository.getCart(ownerId);
-      
-//       // if (!cart) {
-//       //     return res.status(404).json({ message: "Cart not found." });
-//       // }
-
-//       const cartDetails = cart?.items.map(item => ({
-//           productId: item.productId._id,
-//           quantity: item.quantity,
-//           name: item.productId.name,
-//           price: item.productId.price,
-//           description: item.productId.description,
-//           img: item.productId.img,
-//       }));
-
-//       console.log(cartDetails);
-//       res.json(cartDetails || { items: [] });
-//   } catch (error) {
-//       console.error("Error fetching cart:", error);
-//       res.status(500).json({ message: error });
-//   }
-// });
 CartRoute.get('/:ownerId', async (req, res) => {
   try {
       const ownerId = req.params.ownerId;

@@ -14,7 +14,7 @@ const CHAPA_URL = process.env.CHAPA_INITILIZE || "https://api.chapa.co/v1/transa
 const CHAPA_URL_VERIFY = process.env.CHAPA_VERIFY;
 const CHAPA_KEY = process.env.CHAPA_SECRET_KEY;
 const BASE_URL = process.env.BASE_URL;
-const FRONT_URL = process.env.FRONT_URL;
+const FRONT_URL = process.env.FRONT_URL as string;
 
 interface CheckoutResponse {
     data: {

@@ -180,7 +180,8 @@ ProductRoute.get('/category/:category', async (req, res) => {
             name: product.name,
             price: product.price,
             description: product.description,
-            category: product.category
+            category: product.category,
+            img:product.img
         }));
        console.log(formattedProducts);
         res.json(formattedProducts);
