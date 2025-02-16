@@ -116,7 +116,7 @@ ProductRoute.get('/see/:id',  async (req: Request, res: Response) => {
 //         res.status(500).json({ message: error});
 //     }
 // });
-ProductRoute.get('/allProducts', async (req, res) => {
+ProductRoute.get('/allProducts', async (req: any, res: any) => {
     try {
         const ProductRepository = ProductProvider.provideProductRepository();
 
@@ -131,15 +131,14 @@ ProductRoute.get('/allProducts', async (req, res) => {
            owner:item.owner,
          }));
          console.log(cartDetails);
-        res.json(cartDetails || {items:[]});
-res.json(products);
-        res.status(200).json(products);
+        
+        return res.status(200).json(products);
     } catch (error) {
         res.status(500).json({ message: error });
     }
 });
 
-ProductRoute.get('/ownerProducts/:ownerId', async (req, res) => {
+ProductRoute.get('/ownerProducts/:ownerId', async (req: any, res: any) => {
     try {
         const ownerId = req.params.ownerId; // Get owner ID from URL parameters
         const ProductRepository = ProductProvider.provideProductRepository();
@@ -156,15 +155,14 @@ ProductRoute.get('/ownerProducts/:ownerId', async (req, res) => {
                       img: item.img,
                     }));
                     console.log(cartDetails);
-                   res.json(cartDetails || {items:[]});
-        res.json(products);
+                   return res.json(cartDetails || {items:[]});
     } catch (error) {
         res.status(500).json({ message: error });
     }
 });
 
 
-ProductRoute.get('/category/:category', async (req, res) => {
+ProductRoute.get('/category/:category', async (req: any, res: any) => {
     try {
         const category = req.params.category; // Get category from URL parameters
         
@@ -184,7 +182,7 @@ ProductRoute.get('/category/:category', async (req, res) => {
             img:product.img
         }));
        console.log(formattedProducts);
-        res.json(formattedProducts);
+       return res.json(formattedProducts);
     } catch (error) {
         res.status(500).json({ message: error});
     }
@@ -218,13 +216,13 @@ ProductRoute.get('/category/:category', async (req, res) => {
 // });
 
 // Update a product by ID
-ProductRoute.put('/:id', async (req, res) => {
+ProductRoute.put('/:id', async (req: any, res: any) => {
     try {
         const productId = req.params.id;
         const updatedProductData= req.body; // Use Partial to allow partial updates
         const ProductRepository = ProductProvider.provideProductRepository();
         const updatedProduct = await ProductRepository.updateData(productId, updatedProductData);
-        res.json({ message: `Product updated successfully`, product: updatedProduct });
+        return res.json({ message: `Product updated successfully`, product: updatedProduct });
         
     } catch (error) {
         res.status(500).json({ message: error});
@@ -232,12 +230,12 @@ ProductRoute.put('/:id', async (req, res) => {
 });
 
 // Delete a product by ID
-ProductRoute.delete('/:id', async (req, res) => {
+ProductRoute.delete('/:id', async (req: any, res: any) => {
     try {
         const productId = req.params.id;
         const ProductRepository = ProductProvider.provideProductRepository();
         await ProductRepository.deleteData(productId);
-        // res.json({ message: 'Product deleted successfully' });
+        return res.json({ message: 'Product deleted successfully' });
     } catch (error) {
         res.status(500).json({ message: error });
     }
